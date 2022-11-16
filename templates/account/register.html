@@ -9,7 +9,6 @@
       <article class="card-body">
 		<header class="mb-4"><h4 class="card-title">Sign up</h4></header>
 		<form method="POST">
-			
 			{% csrf_token %}
 			<div class="form-row">
 				<div class="col form-group">
@@ -44,14 +43,16 @@
 			<div class="form-group">
 				<button type="submit" class="btn btn-primary btn-block"> Register  </button>
 			</div> <!-- form-group// --> 
-			<!-- {{form.email.errors}}
-			{{form.non_field.errors}} -->
+			<div class="text-danger">
+				{{form.email.errors}}
+			    {{form.non_field_errors}}
+			</div>
 			{% include 'includes/alerts.html' %}
-			{{ form.errors }}
+			<!-- {{ form.errors }} -->
 		</form>
 	  </article><!-- card-body.// -->
     </div> <!-- card .// -->
-    <p class="text-center mt-4">Have an account? <a href="">Log In</a></p>
+    <p class="text-center mt-4">Have an account? <a href="{% url 'login' %}">Log In</a></p>
     <br><br>
 <!-- ============================ COMPONENT REGISTER  END.// ================================= -->
 
