@@ -157,6 +157,7 @@ MESSAGE_TAGS = {
 # smtp configuration
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'sms88864@gmail.com'
-EMAIL_HOST_PASSWORD = 'omkar1995'
+EMAIL_HOST_USER = 'ksv88864@gmail.com'
+EMAIL_HOST_PASSWORD = 'wsob osir uzlr coco'
 EMAIL_USE_TLS = True
+# wsob osir uzlr coco

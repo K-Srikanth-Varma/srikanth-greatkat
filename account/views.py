@@ -79,4 +79,4 @@ def LogoutView(request):
     return redirect('login')
 
 def activate(request, uidb64, token):
-    return HttpResponse('okay')
+    return HttpResponse('<h1> thanks for registered start the shopping now </h1>')
