@@ -4,6 +4,9 @@ from .forms import RegistrationForm
 from django.contrib import messages, auth
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+from cart.views import _cart_id
+from cart.models import Cart, Cartitem
+from store.models import Product, Variation
 
 # Verification Email
 from django.contrib.sites.shortcuts import get_current_site
@@ -64,6 +67,48 @@ def LoginView(request):
         user = auth.authenticate(email=email,password=password)
 
         if user is not None:
+            try:
+                cart = Cart.objects.get(cart_id=_cart_id(request))
+                is_cart_item_exists = Cartitem.objects.filter(cart=cart).exists()
+                if is_cart_item_exists:
+                    cart_item = Cartitem.objects.filter(cart=cart)
+
+                    # getting the product variation by cart_id
+
+                    product_variation = []
+
+                    for item in cart:
+                        variation = item.variations.all()
+                        product_variation.append(list(variation))
+
+                    # get the cart_item from the user to access his product variation
+
+                    cart_item = Cartitem.objects.filter(user=user)
+    
+                    ex_var_list = []
+                    id = []
+                    for item in cart_item:
+                        existing_variation = item.variations.all()
+                        ex_var_list.append(list(existing_variation))
+                        id.append(item.id)
+
+                    for pr in product_variation:
+                        if pr in ex_var_list:
+                            index = ex_var_list.index(pr)
+                            item_id = id[index]
+                            item = Cartitem.objects.get(id=item_id)
+                            item.quantity += 1
+                            item.user = user 
+                            item.save()
+
+                        else:
+                            cart_item = Cartitem.objects.filter(cart=cart)
+                            for item in cart_item:
+                                item.user = user
+                                item.save()
+            except:
+                pass
+
             auth.login(request, user)
             messages.success(request, 'You are now logged in')
             return redirect('dashboard')
