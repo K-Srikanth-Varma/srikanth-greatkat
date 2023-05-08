@@ -77,7 +77,7 @@ def LoginView(request):
 
                     product_variation = []
 
-                    for item in cart:
+                    for item in cart_item:
                         variation = item.variations.all()
                         product_variation.append(list(variation))
 
@@ -111,6 +111,15 @@ def LoginView(request):
 
             auth.login(request, user)
             messages.success(request, 'You are now logged in')
+            url = request.META.get('HTT_REFERER')
+            try:
+                query = requests.utils.urlparse().query
+                print('query ----', query)
+
+                params = dict(x.split('=') for x in query.split('&'))
+                print('params ----', params)
+            except:
+                pass
             return redirect('dashboard')
         else:
             messages.error(request, 'invalid login credetials')
